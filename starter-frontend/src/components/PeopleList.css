@@ -1,0 +1,41 @@
+.People-list {
+  list-style: none;
+  padding: 0;
+}
+
+.Person-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Person-info {
+  font-size: 18px;
+}
+
+.Button-delete,
+.Button-update {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.Button-update {
+  background-color: #2196f3;
+  margin-left: 10px;
+}
+
+.Button-delete:hover,
+.Button-update:hover {
+  background-color: #2fd391;
+}

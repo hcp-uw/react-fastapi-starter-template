@@ -1,0 +1,4 @@
+starter-frontend/node_modules/*
+starter-frontend/build/*
+starter-backend/__pycache__
+.env
