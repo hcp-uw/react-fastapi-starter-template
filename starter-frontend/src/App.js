@@ -1,78 +1,82 @@
 import './App.css' // import css file
-import { useEffect, useState } from 'react' // import react hooks
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// import a default export from a file
-import PeopleForm from './components/PeopleForm'
-// import a named export from a file
-import { PeopleList } from './components/PeopleList'
-// import functions from services folder
-import { create, getAll } from './services/people'
+function realApiCall(name) {
+  return axios.get(`http://localhost:8000/greeting/${name}`)
+}
 
+function fakeApiCall() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        name: "John Doe",
+        age: 32,
+        address: "123 Main St",
+        friends: [
+          { name: "Jane Doe", age: 31, address: "123 Main St" },
+          { name: "John Smith", age: 33, address: "123 Main St" },
+          { name: "Jane Smith", age: 34, address: "123 Main St" },
+        ]})
+    }
+    , 1000)
+  })
+}
 
-
-// App component
-function App () {
-  // useState hooks to store state.
-  // usage: const [state, setState] = useState(initialState)
-  // note that every time you call setState, the component will re-render
-  const [age, setAge] = useState('')
-  const [name, setName] = useState('')
-  const [people, setPeople] = useState([])
-
-  // useEffect hook to make API call when component mounts
-  // usage: useEffect(callback, [dependencies])
-  // if you pass an empty array as the second argument, the callback will only
-  // be called once, when the component mounts
-  useEffect(() => {
-    getAll().then(response => {
-      setPeople(response.people.map(person => ({ person, active: true })))
+function greetingButton(name) {
+  const handleClick = () => {
+    realApiCall(name).then((response) => {
+      alert(`You have one greeting: ${response.data.message}`)
     })
-  }, [])
-
-  // event handlers helper functions. update state and make calls
-  // to the backend through the services functions
-
-  // note that react handles the state locally so that you don't need
-  // to refresh the page to see the changes. this is what makes react
-  // so powerful
-  const handleSubmit = e => {
-    e.preventDefault() // prevent default form submission page refresh
-    setAge('') // clear the
-    setName('') // input fields
-
-    // call the create function from services/people.js and update local state
-    create(name, age).then(response => setPeople([...people, response.person]))
   }
 
-  // return the JSX that will be rendered. this is another powerful feature
-  // of react. JSX is a syntax extension to javascript that allows us to
-  // write HTML-like code inside javascript.
-  //
-  // note: the return statement can only return one element, so we wrap
-  // everything in a div
-  //
-  // note: you can use javascript expressions inside JSX by wrapping them
-  // in curly braces. this is how we can use the state variables in our JSX
-  //
-  // note: the className attribute is used instead of class
-  // this is because class is a reserved keyword in javascript
-  //
-  // note: we pass the event handlers as props to the PeopleList and PeopleForm
-  // components so that they can be used there. the ability to define your own
-  // components and pass arbitrary props to them is another powerful feature
-  // of react
+  return (
+    <button style={{ margin: "10px" }}
+     onClick={handleClick}>Greet {name}</button>
+  )
+}
+
+
+
+const Person = ({ name, age, address }) => {
+  return (
+    <div style={{ border: "1px solid black", margin: "10px", padding: "10px" }}>
+      <h4>{name}</h4>
+      <h5>{age}</h5>
+      <h6>{address}</h6>
+    </div>
+  )
+}
+
+function App () {
+
+  const [name, setName] = useState("")
+  const [age, setAge] = useState("")
+  const [address, setAddress] = useState("")
+  const [friends, setFriends] = useState([])
+
+  useEffect(() => {
+    fakeApiCall().then((data) => {
+      setName(data.name)
+      setAge(data.age)
+      setAddress(data.address)
+      setFriends(data.friends)
+    })
+  }
+  , [])
+
 
   return (
-    <div className='App'>
-      <h1 className='App-header'>Add People</h1>
-      <PeopleForm
-        handleSubmit={handleSubmit}
-        name={name}
-        age={age}
-        setName={setName}
-        setAge={setAge}
-      />
-      <PeopleList people={people} age={age} name={name} setPeople={setPeople} />
+    <div className="app">
+      <header className="app-header">
+        <h1>My Friends</h1>
+        <Person name={name} age={age} address={address} />
+        {greetingButton(name)}
+        <h2>Friends</h2>
+        {friends.map((friend, i) => {
+          return <Person key={i} name={friend.name} age={friend.age} address={friend.address} />
+        })}
+      </header>
     </div>
   )
 }

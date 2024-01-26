@@ -1,5 +1,9 @@
 # FastAPI Starter
 
+## NOTE:
+
+This is a more detailed guide about how to set up a database connection using fastAPI. If you want to get up and running fast, check out the [quickstart](./quickstart.md)
+
 ### Preface
 
 This is a starter template for building a fullstack web app with FastAPI and React. It is intended to be used as a starting point for HCP members to build their projects. It is not intended to be a comprehensive tutorial on FastAPI or React. Instead, it is intended to provide a basic understanding of how to use FastAPI and React together. This document assumes a basic understanding of Python, Javascript, and web development in general, but goes into far more detail on how to use FastAPI in a frontend-agnotic way.

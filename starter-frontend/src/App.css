@@ -1,4 +1,4 @@
-.App {
+.app {
   font-family: Arial, sans-serif;
   max-width: 400px;
   margin: 0 auto;
@@ -8,7 +8,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.App-header {
+.app-header {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
